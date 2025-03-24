@@ -29,14 +29,7 @@ new class extends Component {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
 
-            'email' => [
-                'required',
-                'string',
-                'lowercase',
-                'email',
-                'max:255',
-                Rule::unique(User::class)->ignore($user->id)
-            ],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
         ]);
 
         $user->fill($validated);
@@ -79,12 +72,13 @@ new class extends Component {
             <div>
                 <flux:input wire:model="email" :label="__('Email')" type="email" required autocomplete="email" />
 
-                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail &&! auth()->user()->hasVerifiedEmail())
+                @if (auth()->user() instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !auth()->user()->hasVerifiedEmail())
                     <div>
                         <flux:text class="mt-4">
                             {{ __('Your email address is unverified.') }}
 
-                            <flux:link class="text-sm cursor-pointer" wire:click.prevent="resendVerificationNotification">
+                            <flux:link class="text-sm cursor-pointer"
+                                wire:click.prevent="resendVerificationNotification">
                                 {{ __('Click here to re-send the verification email.') }}
                             </flux:link>
                         </flux:text>
@@ -110,5 +104,20 @@ new class extends Component {
         </form>
 
         <livewire:settings.delete-user-form />
+
+        @if (Auth::user()->admin == 1)
+            <section class="mt-10 space-y-6">
+                <div class="relative mb-5">
+                    <flux:heading>{{ __('Admin') }}</flux:heading>
+                    <flux:subheading>{{ __('Enter admin mode') }}</flux:subheading>
+                </div>
+                <x-nav-link :href="route('admin')">
+                    <flux:button>
+                        {{ __('Admin Mode') }}
+                    </flux:button>
+                </x-nav-link>
+                </div>
+            </section>
+        @endif
     </x-settings.layout>
 </section>

@@ -93,11 +93,33 @@ class PostsController extends Controller
         return redirect()->route('dashboard')->with('success', 'Post updated successfully.');
     }
 
-    public function destroy($id)
+    public function remove($id)
     {
         $post = Post::findOrFail($id);
         $post->delete();
 
         return redirect()->route('dashboard')->with('success', 'Post deleted successfully.');
+    }
+
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+        return view('admin-page', compact('posts'));
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->forceDelete();
+
+        return redirect()->route('admin')->with('success', 'Post deleted permanently.');
+    }
+    
+    public function restore($id)
+    {
+        $post = Post::withTrashed()->findOrFail($id);
+        $post->restore();
+
+        return redirect()->route('admin')->with('success', 'Post restored successfully.');
     }
 }

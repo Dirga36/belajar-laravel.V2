@@ -27,22 +27,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/my-post', [PostsController::class, 'myPosts'])->name('my-post');
 
     //AllUser ADD POST PAGE
-    Route::get('/create-post', [PostsController::class, 'create'])->name('create-post');
+    Route::get('/create-post', [PostsController::class, 'create'])->name('post.create');
     Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
 
     //AllUser SHOW SINGLE POST PAGE
     Route::get('/dashboard/post/{id?}', [PostsController::class, 'show'])->name('post.show');
-    Route::get('/edit-post/{id}', [PostsController::class, 'edit'])->name('post.edit');
     
+    //AllUser UPDATE & DELETE POST PAGE
+    Route::get('/edit-post/{id}', [PostsController::class, 'edit'])->name('post.edit');
     Route::put('/posts/{id}', [PostsController::class, 'update'])->name('post.update');
-    Route::delete('/posts/{id}', [PostsController::class, 'destroy'])->name('post.destroy');
+    Route::delete('/posts/{id}', [PostsController::class, 'remove'])->name('post.remove');
+
+    //OnlyAdmin CRUD PAGE
+    Route::get('/admin', [PostsController::class, 'trashed'])->name('admin');
+    Route::get('/admin/{id}', [PostsController::class, 'restore'])->name('admin.restore');
+    Route::delete('/admin/{id}', [PostsController::class, 'destroy'])->name('admin.delete');
 });
 
 //===================================================================================================
-
-//OnlyAdmin CRUD PAGE
-Route::get('/admin', function () {
-    return view('admin-page');
-})->middleware(['auth', 'verified'])->name('admin');
 
 //Route::resource('posts', PostController::class)->middleware('auth');

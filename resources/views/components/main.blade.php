@@ -28,17 +28,69 @@
                         </div>
                     </div>
                     <div class="flex flex-row justify-end">
-                        @if (Auth::check() && Auth::user()->id == $post->user_id)
+                        @if (Auth::user()->admin == 1 && Auth::user()->id == $post->user_id)
                             <a href='{{ route('post.edit', $post['id']) }}'
                                 class="text-yellow-500 hover:underline">Edit</a>
-                            <form action="{{ route('post.destroy', $post['id']) }}" method="POST" class="inline ml-4">
+                            @if ($post->trashed())
+                                <form action="{{ route('admin.restore', $post['id']) }}" class="inline ml-4" method="POST">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit" class="text-green-400 hover:underline">Restore</button>
+                                </form>
+
+                                <form action="{{ route('admin.delete', $post['id']) }}" method="POST"
+                                    class="inline ml-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline">Delete
+                                        Permanently</button>
+                                </form>
+                            @else
+                                <form action="{{ route('post.remove', $post['id']) }}" method="POST"
+                                    class="inline ml-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                </form>
+                            @endif
+                        @elseif (Auth::user()->admin == 1)
+                            <a href='{{ route('post.edit', $post['id']) }}'
+                                class="text-yellow-500 hover:underline">Edit</a>
+                            @if ($post->trashed())
+                                <form action="{{ route('admin.delete', $post['id']) }}" method="POST"
+                                    class="inline ml-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline">Delete
+                                        Permanently</button>
+                                </form>
+                            @else
+                                <form action="{{ route('post.remove', $post['id']) }}" method="POST"
+                                    class="inline ml-4">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:underline">Delete</button>
+                                </form>
+                            @endif
+                        @elseif (Auth::user()->id == $post->user_id)
+                            <a href='{{ route('post.edit', $post['id']) }}'
+                                class="text-yellow-500 hover:underline">Edit</a>
+                            <form action="{{ route('post.remove', $post['id']) }}" method="POST" class="inline ml-4">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Delete</button>
                             </form>
                         @endif
-                        <a href='{{ route('post.show', $post['id']) }}' class="ml-4 text-blue-600 hover:underline">Read more
-                            &raquo;</a>
+
+                        @if ($post->trashed())
+                            <p class="ml-4 italic">
+                                {{ __('deleted at: ') }}
+                                {{ $post->deleted_at->diffForHumans() }}
+                            </p>
+                        @else
+                            <a href='{{ route('post.show', $post['id']) }}' class="ml-4 text-blue-600 hover:underline">
+                                Read more &raquo;</a>
+                        @endif
                     </div>
                 </div>
             </div>

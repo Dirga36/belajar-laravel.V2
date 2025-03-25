@@ -17,7 +17,7 @@
                     
                     <flux:navlist.item icon="home" :href="route('my-post')" :current="request()->routeIs('my-post')" wire:navigate>{{ __('My Posts') }}</flux:navlist.item>
 
-                    <flux:navlist.item icon="home" :href="route('create-post')" :current="request()->routeIs('create-post')" wire:navigate>{{ __('Create a post') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('post.create')" :current="request()->routeIs('post.create')" wire:navigate>{{ __('Create a post') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

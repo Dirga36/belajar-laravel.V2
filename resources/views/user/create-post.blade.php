@@ -29,14 +29,13 @@
                             <!-- Category select field -->
                             <label for="category_id"
                                 class="block text-sm font-medium text-gray-700 dark:text-gray-300">Category</label>
-                            <select name="category_id" id="category_id"
-                                class="mt-1 block w-full bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-slate-600 focus:border-blue-600 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                                required>
+                            <flux:select :filter="false" size="sm" placeholder="choose category...">
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}" class="bg-gray-50">{{ $category->name }}
-                                    </option>
+                                    <flux:select.option value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </flux:select.option>
                                 @endforeach
-                            </select>
+                            </flux:select>
                         </div>
                         <div>
                             <!-- Image file input field -->

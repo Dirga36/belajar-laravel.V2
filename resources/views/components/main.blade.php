@@ -32,7 +32,8 @@
                             <a href='{{ route('post.edit', $post['id']) }}'
                                 class="text-yellow-500 hover:underline">Edit</a>
                             @if ($post->trashed())
-                                <form action="{{ route('admin.restore', $post['id']) }}" class="inline ml-4" method="POST">
+                                <form action="{{ route('admin.restore', $post['id']) }}" class="inline ml-4"
+                                    method="POST">
                                     @csrf
                                     @method('GET')
                                     <button type="submit" class="text-green-400 hover:underline">Restore</button>
@@ -57,6 +58,13 @@
                             <a href='{{ route('post.edit', $post['id']) }}'
                                 class="text-yellow-500 hover:underline">Edit</a>
                             @if ($post->trashed())
+                                <form action="{{ route('admin.restore', $post['id']) }}" class="inline ml-4"
+                                    method="POST">
+                                    @csrf
+                                    @method('GET')
+                                    <button type="submit" class="text-green-400 hover:underline">Restore</button>
+                                </form>
+
                                 <form action="{{ route('admin.delete', $post['id']) }}" method="POST"
                                     class="inline ml-4">
                                     @csrf

@@ -11,13 +11,13 @@ class PostsController extends Controller
 {
     public function myPosts()
     {
-        $posts = Post::with('category')->where('user_id', Auth::id())->get();
+        $posts = Post::with('category')->where('user_id', Auth::id())->latest()->paginate(5);
         return view('user.my-post', compact('posts'));
     }
     
     public function index()
     {
-        $posts = Post::with('category', 'user')->get();
+        $posts = Post::with('category', 'user')->latest()->paginate(5);
         $categories = Category::all();
         return view('dashboard', compact('posts', 'categories'));
     }
@@ -121,5 +121,17 @@ class PostsController extends Controller
         $post->restore();
 
         return redirect()->route('admin')->with('success', 'Post restored successfully.');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $posts = Post::with('category', 'user')
+            ->where('title', 'like', "%{$query}%")
+            ->orWhere('body', 'like', "%{$query}%")
+            ->get();
+
+        $categories = Category::all();
+        return view('dashboard', compact('posts', 'categories', 'query'));
     }
 }

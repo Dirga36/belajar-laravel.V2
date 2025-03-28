@@ -25,6 +25,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //AllUser MAIN PAGE 
     Route::get('/dashboard', [PostsController::class, 'index'])->name('dashboard');
     Route::get('/my-post', [PostsController::class, 'myPosts'])->name('my-post');
+    Route::get('/search', [PostsController::class, 'search'])->name('posts.search');
 
     //AllUser ADD POST PAGE
     Route::get('/create-post', [PostsController::class, 'create'])->name('post.create');

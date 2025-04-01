@@ -11,15 +11,11 @@
                 <x-app-logo />
             </a>
 
-            <flux:navlist variant="outline">
+{{--            <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
-                    
-                    <flux:navlist.item icon="home" :href="route('my-post')" :current="request()->routeIs('my-post')" wire:navigate>{{ __('My Posts') }}</flux:navlist.item>
-
-                    <flux:navlist.item icon="home" :href="route('post.create')" :current="request()->routeIs('post.create')" wire:navigate>{{ __('Create a post') }}</flux:navlist.item>
                 </flux:navlist.group>
-            </flux:navlist>
+            </flux:navlist> --}}
 
             <flux:spacer />
 
@@ -132,5 +128,6 @@
         {{ $slot }}
 
         @fluxScripts
+        <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
     </body>
 </html>

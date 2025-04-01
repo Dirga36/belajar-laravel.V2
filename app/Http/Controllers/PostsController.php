@@ -103,7 +103,7 @@ class PostsController extends Controller
 
     public function trashed()
     {
-        $posts = Post::onlyTrashed()->get();
+        $posts = Post::onlyTrashed()->paginate(5);
         return view('admin-page', compact('posts'));
     }
 

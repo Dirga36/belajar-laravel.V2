@@ -32,7 +32,7 @@
                             <a href='{{ route('post.edit', $post['id']) }}'
                                 class="text-yellow-500 hover:underline">Edit</a>
                             @if ($post->trashed())
-                                <form action="{{ route('admin.restore', $post['id']) }}" class="inline ml-4"
+                                <form action="{{ route('admin.restore', $post['id']) }}"
                                     method="POST">
                                     @csrf
                                     @method('GET')
